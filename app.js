@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({
   extended: false
 }))
 
-// Process application/json
 app.use(bodyParser.json())
 
 // Index route
@@ -22,6 +21,7 @@ app.get('/', function(req, res) {
 })
 
 // for Facebook verification
+// Process application/json
 app.get('/webhook/', function(req, res) {
   if (req.query['hub.verify_token'] === 'my_voice_is_my_password_verify_me') {
     res.send(req.query['hub.challenge'])
@@ -33,3 +33,18 @@ app.get('/webhook/', function(req, res) {
 app.listen(app.get('port'), function() {
   console.log('running on port', app.get('port'))
 })
+
+app.post('/webhook/', function(req, res) {
+  let messaging_events = req.body.entry[0].messaging
+  for (let i = 0; i < messaging_events.length; i++) {
+    let event = req.body.entry[0].messaging[i]
+    let sender = event.sender.id
+    if (event.message && event.message.text) {
+      let text = event.message.text
+      sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+    }
+  }
+  res.sendStatus(200)
+})
+
+const token = "EAAE7IZCRTbWQBAA767sSPUx6PBLBN4B4uf2sMZCMfAKZBbIjOHctWAeOrHSe28LxiMMyxEqQUwqZCV09aIaFTyj1Xd2LFQ3IkbmdG5ZAloxWsjxUhjDuPsUi3R6IiwRnJbEkNiqMkHoWQia0YzDzYITZAjU4piTZBC6Fu9s53cAjgZDZD"
