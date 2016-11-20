@@ -4,7 +4,7 @@
   "description": "A bot for messenger that will act as a group chat",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/CodingHobby/FacebookBot/issues"
   },
-  "homepage": "https://github.com/CodingHobby/FacebookBot#readme"
+  "homepage": "https://github.com/CodingHobby/FacebookBot#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "request": "^2.79.0"
+  }
 }
