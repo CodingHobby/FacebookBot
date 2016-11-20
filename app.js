@@ -80,4 +80,36 @@ app.post('/webhook/', function(req, res) {
   res.sendStatus(200)
 })
 
-const token = "EAAE7IZCRTbWQBADm7pq9DtCP54YtghZAhrqP86haxlP0HhrThquZChCk1DghqNQog9Xg3GPoJnUm6SWYzvWCX6TpBODrZBmZBXGS58VlftDvtZBfQWq7LmZAM4DokNcPSTxM68gPs6bZB60aY7GQeAtJQlLNpZCK1iZC0pxZBzTYAG9yQZDZD"
+const token = "EAAE7IZCRTbWQBAEM4rcvoC6bQkuFisKYJscmzZCyUrUoQdn69QBKtGjaHqgQQuls5ZCJHKXOAmfR5RCE7aW3hos2trYlRzE1i3eJVwIxyKGZBuqSnYih496kkzh7ayIxvZAbOTKzXLxRadjWsclKcByEVIhZAjqopzQxazBoZAR2gZDZD"
+
+function receivedMessage(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfMessage = event.timestamp;
+  var message = event.message;
+
+  console.log("Received message for user %d and page %d at %d with message:",
+    senderID, recipientID, timeOfMessage);
+  console.log(JSON.stringify(message));
+
+  var messageId = message.mid;
+
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+
+  if (messageText) {
+
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the example. Otherwise, just echo the text we received.
+    switch (messageText) {
+      case 'generic':
+        sendGenericMessage(senderID);
+        break;
+
+      default:
+        sendTextMessage(senderID, messageText);
+    }
+  } else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  }
+}
